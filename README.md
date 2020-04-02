@@ -15,6 +15,6 @@ Windows: You will need to installpython3 which is available at python.org.
 # Usage
 Run the program in the terminal with the following command line arguments:
 
---bucket        Name of the bucket with items to be restored\
---foldername    Name of the folder to be restored\
---days          Number of days the restored items will be available for download\
+--bucket        -Name of the bucket with items to be restored\
+--foldername    -Name of the folder to be restored\
+--days          -Number of days the restored items will be available for download\
