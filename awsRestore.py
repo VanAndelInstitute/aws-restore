@@ -3,14 +3,18 @@ from botocore.exceptions import ClientError
 import sys
 import argparse
 
-#add parser for command line arguments. User adds folder name and Days restored file available for download
-parser = argparse.ArgumentParser(description = 'add parameters to restore')
-parser.add_argument('--foldername', action = 'store')
-parser.add_argument('--days', action = 'store')
-parser.add_argument('--bucket', action = 'store')
-args = parser.parse_args()
-Days = int(args.days)
-bucketname = args.bucket
+try:
+    #add parser for command line arguments. User adds folder name and Days restored file available for download
+    parser = argparse.ArgumentParser(description = 'add parameters to restore')
+    parser.add_argument('--foldername', action = 'store')
+    parser.add_argument('--days', action = 'store')
+    parser.add_argument('--bucket', action = 'store')
+    args = parser.parse_args()
+    Days = int(args.days)
+    bucketname = args.bucket
+except Error as e:
+    print(e)
+    sys.exit()
 
 try:
     s3 = boto3.resource('s3')
@@ -44,7 +48,7 @@ try:
                             #if restore status is blank continue to request restore
                             if obj.restore is None: 
                                     print('Submitting restoration request: %s' % obj.key)
-                                    #restore object
+                                    #restore object with Days parameter for the number of days restore is available for downloading
                                     obj.restore_object(RestoreRequest={'Days': Days}) 
                             #if object is being restored print status
                             elif 'ongoing-request="true"' in obj.restore: 
