@@ -1,25 +1,37 @@
 import boto3
 from botocore.exceptions import ClientError
 import sys
+import argparse
+
+#add parser for command line arguments. User adds folder name and Days restored file available for download
+parser = argparse.ArgumentParser(description = 'add parameters to restore')
+parser.add_argument('--foldername', action = 'store')
+parser.add_argument('--days', action = 'store')
+parser.add_argument('--bucket', action = 'store')
+args = parser.parse_args()
+Days = int(args.days)
+bucketname = args.bucket
 
 try:
     s3 = boto3.resource('s3')
-    bucket = s3.Bucket('motuz')
+    bucket = s3.Bucket(bucketname)
     #get folder name of the folder you would like to restore from glacier (input on command line)
-    folderName = sys.argv[1]
+    folderName = args.foldername
 except ClientError as e:
     print(e.response)
     sys.exit()
 
 try:
     s3Client = boto3.client('s3')
+    #add paginator to allow for larger than 1000 objects restore
     paginator = s3Client.get_paginator('list_objects')
-    page_iterator = paginator.paginate(Bucket='motuz', PaginationConfig={'PageSize':1000})
+    page_iterator = paginator.paginate(Bucket=bucketname, PaginationConfig={'PageSize':1000})
 except ClientError as e:
     print(e.response)
     sys.exit()
 
 try:
+    #loop through pages to restore
     for page in page_iterator:
             #loop through bucket objects to restore
             for obj in page['Contents']:
@@ -33,7 +45,7 @@ try:
                             if obj.restore is None: 
                                     print('Submitting restoration request: %s' % obj.key)
                                     #restore object
-                                    obj.restore_object(RestoreRequest={'Days': 1}) 
+                                    obj.restore_object(RestoreRequest={'Days': Days}) 
                             #if object is being restored print status
                             elif 'ongoing-request="true"' in obj.restore: 
                                 print('Restoration in-progress: %s' % obj.key)
