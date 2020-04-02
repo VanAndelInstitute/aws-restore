@@ -4,15 +4,15 @@ import sys
 import argparse
 
 try:
-    #add parser for command line arguments. User adds folder name and Days restored file available for download
+    #add parser for command line arguments. User adds folder name, bucket name, and Days restored file available for download
     parser = argparse.ArgumentParser(description = 'add parameters to restore')
     parser.add_argument('--foldername', action = 'store')
     parser.add_argument('--days', action = 'store')
     parser.add_argument('--bucket', action = 'store')
     args = parser.parse_args()
     Days = int(args.days)
-    bucketname = args.bucket
-except Error as e:
+    bucketname = args.bucket  
+except Exception as e:
     print(e)
     sys.exit()
 
@@ -42,7 +42,7 @@ try:
                     #if the folder name is in the object key continue to restore
                     if folderName in obj['Key']:
                         #variable for current object
-                        obj = s3.Object('motuz', obj['Key']) 
+                        obj = s3.Object(bucketname, obj['Key']) 
                         #check to see if object is in glacier deep archive
                         if obj.storage_class == 'DEEP_ARCHIVE': 
                             #if restore status is blank continue to request restore
