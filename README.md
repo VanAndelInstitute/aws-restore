@@ -10,7 +10,7 @@ The user enters the bucket name, folder name (top level folder - all subfolders 
 # Installation
 Mac OS X: A version of Python is already installed.
 
-Windows: You will need to installpython3 which is available at python.org.
+Windows: You will need to install python3 which is available at python.org.
 
 # Usage
 Run the program in the terminal with the following command line arguments:
