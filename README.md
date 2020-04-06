@@ -12,6 +12,17 @@ Mac OS X: A version of Python is already installed.
 
 Windows: You will need to install python3 which is available at python.org.
 
+Prior to using this script you must log-in to the aws account through the terminal using "aws configure".
+
+example:
+
+    aws configure
+    AWS Access Key ID [****************TDNW]: <<your aws access key>>
+    AWS Secret Access Key [****************qUQl]: <<your aws secret access key>>
+    Default region name [us-east-2]: <<your aws region>>
+    Default output format [json]: <<your default output>>
+
+
 # Usage
 Run the program in the terminal with the following command line arguments:
 
