@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import boto3
 from botocore.exceptions import ClientError
 import sys
@@ -11,7 +12,7 @@ try:
     parser.add_argument('--bucket', action = 'store')
     args = parser.parse_args()
     Days = int(args.days)
-    bucketname = args.bucket  
+    bucketname = args.bucket
 except Exception as e:
     print(e)
     sys.exit()
@@ -42,19 +43,19 @@ try:
                     #if the folder name is in the object key continue to restore
                     if folderName in obj['Key']:
                         #variable for current object
-                        obj = s3.Object(bucketname, obj['Key']) 
+                        obj = s3.Object(bucketname, obj['Key'])
                         #check to see if object is in glacier deep archive
-                        if obj.storage_class == 'DEEP_ARCHIVE': 
+                        if obj.storage_class == 'DEEP_ARCHIVE':
                             #if restore status is blank continue to request restore
-                            if obj.restore is None: 
+                            if obj.restore is None:
                                     print('Submitting restoration request: %s' % obj.key)
                                     #restore object with Days parameter for the number of days restore is available for downloading
-                                    obj.restore_object(RestoreRequest={'Days': Days}) 
+                                    obj.restore_object(RestoreRequest={'Days': Days})
                             #if object is being restored print status
-                            elif 'ongoing-request="true"' in obj.restore: 
+                            elif 'ongoing-request="true"' in obj.restore:
                                 print('Restoration in-progress: %s' % obj.key)
-                            #if object is done being restored print status    
-                            elif 'ongoing-request="false"' in obj.restore: 
+                            #if object is done being restored print status
+                            elif 'ongoing-request="false"' in obj.restore:
                                 print('Restoration complete: %s' % obj.key)
 except ClientError as e:
     print(e.response)
