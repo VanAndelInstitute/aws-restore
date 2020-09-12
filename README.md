@@ -27,9 +27,9 @@ example:
 Run the program in the terminal with the following command line arguments:
 
     --bucket         Name of the bucket with items to be restored
-    --foldername     Name of the folder to be restored
+    --prefix         S3 prefix of the path (folder) to be restored
     --days           Number of days the restored items will be available for download
 
 example:
 
-    python3 awsRestore.py --bucket <<bucket name>> --foldername <<folder name>> --days <<number of days>>
+    python3 awsRestore.py --bucket <<bucket name>> --prefix  <<prefix>> --days <<number of days>>
