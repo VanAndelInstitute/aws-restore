@@ -55,7 +55,7 @@ try:
                                     if dryrun:
                                        print('\tDryrun: would have restored: %s' %obj.key)
                                     else:
-                                       #obj.restore_object(RestoreRequest={'Days': Days, 'GlacierJobParameters': {'Tier': 'Bulk'}})
+                                       obj.restore_object(RestoreRequest={'Days': Days, 'GlacierJobParameters': {'Tier': 'Bulk'}})
                                        print('\tRestored: %s' %obj.key)
                             #if object is being restored print status
                             elif 'ongoing-request="true"' in obj.restore:
