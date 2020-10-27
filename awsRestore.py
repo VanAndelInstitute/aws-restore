@@ -10,11 +10,13 @@ try:
     parser.add_argument('--prefix', action = 'store', help="the object/file path prefix or folders to restore")
     parser.add_argument('--days', action = 'store', help="days to keep file restored before going back to archive")
     parser.add_argument('--bucket', action = 'store', help="bucket to restore from")
+    parser.add_argument('--dryrun', action='store_true')
     args = parser.parse_args()
     Days = int(args.days)
     bucketname = args.bucket
     #get prefix of the folder you would like to restore from glacier (input on command line)
     prefix = args.prefix
+    dryrun = args.dryrun
 except Exception as e:
     print(e)
     sys.exit()
@@ -50,7 +52,11 @@ try:
                             if obj.restore is None:
                                     print('Submitting restoration request: %s' % obj.key)
                                     #restore object with Days parameter for the number of days restore is available for downloading
-                                    obj.restore_object(RestoreRequest={'Days': Days, 'GlacierJobParameters': {'Tier': 'Bulk'}})
+                                    if dryrun:
+                                       print('\tDryrun: would have restored: %s' %obj.key)
+                                    else:
+                                       #obj.restore_object(RestoreRequest={'Days': Days, 'GlacierJobParameters': {'Tier': 'Bulk'}})
+                                       print('\tRestored: %s' %obj.key)
                             #if object is being restored print status
                             elif 'ongoing-request="true"' in obj.restore:
                                 print('Restoration in-progress: %s' % obj.key)
