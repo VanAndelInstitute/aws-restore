@@ -41,6 +41,7 @@ Run the program in the terminal with the following command line arguments:
     --dryrun         (Optional) Shows what files would have been restored without restoring
 
 example:
+
     python3 awsRestore.py --bucket <<bucket name>> --prefix <<prefix>> --days <<number of days>> --dryrun
     py awsRestore.py --bucket <<bucket name>> --prefix <<prefix>> --days <<number of days>> --dryrun
 
@@ -55,6 +56,7 @@ Run the program in the terminal with the following command line arguments:
     --dryrun         (Optional) Shows what files would have been undeleted
 
 example:
+
     python3 awsUndelete.py --bucket <<bucket name>> --prefix <<prefix>> --dryrun
     py awsUndelete.py --bucket <<bucket name>> --prefix <<prefix>> --dryrun
 
