@@ -38,13 +38,14 @@ except ClientError as e:
 try:
     #loop through pages to undelete
     for page in page_iterator:
-        for obj in page['DeleteMarkers']:
-            if prefix in obj['Key']:
-                if dryrun:
-                    print("Dryrun: would have undeleted: %s" % obj['Key'])
-                else:
-                    s3.ObjectVersion(bucketname, obj['Key'], obj['VersionId']).delete()
-                    print("Undeleting: %s" % obj['Key'])
+        if 'DeleteMarkers' in page:
+            for obj in page['DeleteMarkers']:
+                if prefix in obj['Key']:
+                    if dryrun:
+                        print("Dryrun: would have undeleted: %s" % obj['Key'])
+                    else:
+                        s3.ObjectVersion(bucketname, obj['Key'], obj['VersionId']).delete()
+                        print("Undeleting: %s" % obj['Key'])
 except ClientError as e:
     print(e.response)
     sys.exit()
